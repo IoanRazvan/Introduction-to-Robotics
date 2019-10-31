@@ -1,2 +1,2 @@
-# Robotics
-Repo for Robotics projects
+# Robotics 
+Repository for the Introduction to Robotics course
