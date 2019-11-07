@@ -1,2 +1,2 @@
 Lab homeworks:
-1. potentiometer-controled RGB led (lab 2 homework)
+1. RGB_CONTROLLER (lab 2 homework)
