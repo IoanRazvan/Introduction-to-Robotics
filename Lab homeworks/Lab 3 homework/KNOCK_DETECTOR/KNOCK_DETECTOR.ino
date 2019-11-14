@@ -2,7 +2,7 @@ const int inputBuzzerPin = A0;
 const int outputBuzzerPin = 8;
 const int pushButtonPin = 2;
 
-const int soundThreshold = -1; //since the input buzzer didn't work and the analog input pin A0 was constantly reading a value of 0
+const int soundThreshold = 2; //since the input buzzer didn't work and the analog input pin A0 was constantly reading a value of 0
 const int waitingTime = 5000;  //I set the threshold at -1 to check that the code was working fine 
 
 
