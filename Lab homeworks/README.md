@@ -9,9 +9,9 @@
     Fourth laboratory homework - a circuit through which you can control a 4 digits 7-segment display with a joystick. If no digit is selected the decimal point of the digit currently positioned on is blinking, in this state you can switch between digits by moving the joystick on the X axis. 
     When pressing down on the joystick you select a particular digit you want to increment or decrement by moving the joystick on the Y axis. Pressing down a second time will get you back to selecting a particular digit.
   # 4. LCD MENU
-    For this homework, I have created a joystick controled menu which is 
-    displayed on an LCD. The menu has 3 options: Start, Settings and Highscore. This option are accesed by pressing the button of the joystick.
+    For this homework, I have created a joystick controled menu which is displayed on an LCD. The menu has 3 options: 
+    Start, Settings and Highscore. This options are accesed by pressing the button of the joystick.
     Start - displays information about an ongoing game.
-    Settings - lets the user modify some parameters such as the starting level            of a game
+    Settings - lets the user modify some parameters such as the starting level of a game
     Highscore - displays information about the current highscore and it's holder
     link: https://youtu.be/A4M1C_B1K_E
