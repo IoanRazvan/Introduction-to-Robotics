@@ -1,20 +1,22 @@
 #include "HighScore.h"
 #include <EEPROM.h>
 
-HighScore::HighScore(int * buttonPtr) : buttonPtr(buttonPtr)
+HighScore::HighScore(int button) : ButtonControledMenuOption(button)
 {
   //if EEMPROM has a "not been medled with" value, than initialize holder and highScore with default or given values
-  if (EEPROM.read(0) == 0xFF) {
+  if (EEPROM.read(0) == 0xFF)
+  {
     this->holder = new char[strlen(max_char_in_name) + 1];
     strncpy(this->holder, "No Name", max_char_in_name + 1);
     this->holder[max_char_in_name] = '\0';
     this->highScore = 0;
   }
   //else load the highScore from EEPROM
-  else {
+  else
+  {
     int addr = 0;
-    highScore = EEPROM.read(addr);
     int name_len = 0;
+    highScore = EEPROM.read(addr);
     for (addr = 1; EEPROM.read(addr) != 0xFF; addr++)
       name_len++;
     this->holder = new char[name_len];
@@ -25,7 +27,7 @@ HighScore::HighScore(int * buttonPtr) : buttonPtr(buttonPtr)
 
 HighScore::~HighScore()
 {
-  delete [] holder;
+  delete[] holder;
 }
 
 void HighScore::saveChangesToEEPROM()
@@ -36,10 +38,10 @@ void HighScore::saveChangesToEEPROM()
     EEPROM.write(addr, holder[addr - 1]);
 }
 
-void HighScore::setNewHolderName(const char * newName)
+void HighScore::setNewHolderName(const char *newName)
 {
-  //change holder's name
-  delete [] holder;
+  //change highscore holder's name
+  delete[] holder;
   this->holder = new char[strlen(max_char_in_name) + 1];
   strncpy(this->holder, newName, max_char_in_name + 1);
   this->holder[max_char_in_name] = '\0';
@@ -61,23 +63,16 @@ void HighScore::setNewHighScore(int newScore)
 bool HighScore::waitingEvent(bool *changedState)
 {
   bool stillLoaded = true;
+  auto action = [changedState, &stillLoaded]() -> void {
+    *changedState = true;
+    stillLoaded = false;
+  };
 
-  swState = digitalRead(*buttonPtr);
-  if (swState != lastSwState) {
-    if (swState == LOW) {
-      stillLoaded = false;
-      *changedState = true;
-    }
-    else 
-      stillLoaded = true;
-  }
-  else 
-    stillLoaded = true;
-  lastSwState = swState;
+  takeActionOnButtonPressed(action);
   return stillLoaded;
 }
 
-void HighScore::displayMenuOption(LiquidCrystal & lcd)
+void HighScore::displayMenuOption(LiquidCrystal &lcd)
 {
   lcd.clear();
   lcd.print(holder);

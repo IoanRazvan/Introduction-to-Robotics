@@ -1,40 +1,13 @@
 #include "Settings.h"
 
-Settings::Settings(Start * _startPtr,const int * _buttonPtr,const int * _yAxisPinPtr) 
-  : startItemPtr(_startPtr), buttonPtr(_buttonPtr), yAxisPinPtr(_yAxisPinPtr)
+Settings::Settings(Start *_startPtr, int buttonPin, int axisPin)
+    : startItemPtr(_startPtr), ButtonControledMenuOption(buttonPin),
+      SingleAxisJoystickControledMenuOption(axisPin)
 {
   currentStartLevel = startItemPtr->getDefaultLevel();
-  joyMoved = false;
-  swState = false;
-  lastSwState = false;
 }
 
-void Settings::readingOnYAxis(bool * stateChanged)
-{
-   int yValue;
-   yValue = analogRead(*yAxisPinPtr);
-   if (yValue < minThreshold && joyMoved == false) {
-        if (currentStartLevel > 0)
-          currentStartLevel--;
-        else
-          currentStartLevel = 9;
-        joyMoved = true;
-        *stateChanged = true;
-      }
-   if (yValue > maxThreshold && joyMoved == false) {
-         if (currentStartLevel < 9)
-            currentStartLevel++;
-         else
-            currentStartLevel = 0;
-         joyMoved = true;
-         *stateChanged = true;
-      }
-   if (yValue >= minThreshold && yValue <= maxThreshold) {
-      joyMoved = false;
-}
-}
-
-void Settings::displayMenuOption(LiquidCrystal & lcd)
+void Settings::displayMenuOption(LiquidCrystal &lcd)
 {
   lcd.clear();
   lcd.print("Starting Level: ");
@@ -42,23 +15,28 @@ void Settings::displayMenuOption(LiquidCrystal & lcd)
   lcd.print(currentStartLevel);
 }
 
-bool Settings::waitingEvent(bool * changedState)
+bool Settings::waitingEvent(bool *changedState)
 {
   bool stillLoaded = true;
-  swState = digitalRead(*buttonPtr);
-    if (swState != lastSwState) {
-      if (swState == LOW) {
-         startItemPtr->setDefaultLevel(currentStartLevel);
-        *changedState = true;
-        stillLoaded = false;
-      }
-      else
-        stillLoaded = true;
-    }
-    else
-      stillLoaded = true;
-    lastSwState = swState; 
-    if (stillLoaded)
-      readingOnYAxis(changedState);
-    return stillLoaded;
+  auto action = [this, &stillLoaded, changedState]() -> void {
+    this->startItemPtr->setDefaultLevel(this->currentStartLevel);
+    *changedState = true;
+    stillLoaded = false;
+  };
+
+  takeActionOnButtonPressed(action);
+  if (stillLoaded)
+  {
+    auto negativeMoved = [this, changedState]() -> void {
+      this->currentStartLevel = ((this->currentStartLevel - 1) + 10) % 10;
+      *changedState = true;
+    };
+
+    auto positiveMoved = [this, changedState]() -> void {
+      this->currentStartLevel = (this->currentStartLevel + 1) % 10;
+      *changedState = true;
+    };
+    takeActionsOnJoystickMoved(positiveMoved, negativeMoved);
+  }
+  return stillLoaded;
 }

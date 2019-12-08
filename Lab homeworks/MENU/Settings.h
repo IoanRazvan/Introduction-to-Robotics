@@ -2,25 +2,18 @@
 #define settings_h
 
 #include "Start.h"
+#include "SingleAxisJoystickControledMenuOption.h"
 
-class Settings : public MenuOption
+class Settings : public ButtonControledMenuOption, public SingleAxisJoystickControledMenuOption
 {
-  private:
-    Start * const startItemPtr;
-    const int * const buttonPtr;
-    const int * const yAxisPinPtr;
-    int currentStartLevel;
+private:
+  Start *const startItemPtr;
+  int currentStartLevel;
 
-    const int maxThreshold = 600;
-    const int minThreshold = 400;
-    bool joyMoved;
-    bool swState;
-    bool lastSwState;
-    void readingOnYAxis(bool *);
-  public:
-    Settings::Settings(Start * _startPtr,const int * _buttonPtr,const int * _yAxisPinPtr) ;
-    void displayMenuOption(LiquidCrystal & lcd);
-    bool waitingEvent(bool *changedState);  
+public:
+  Settings(Start *_startPtr, int button, int axisPin);
+  void displayMenuOption(LiquidCrystal &lcd);
+  bool waitingEvent(bool *changedState);
 };
 
 #endif
