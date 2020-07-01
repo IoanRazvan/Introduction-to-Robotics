@@ -1,7 +1,15 @@
-# Introduction to Robotics
+<h1 >Introduction to Robotics</h1>
 
-This is a repository containing the assignments for the Introduction to Robotics laboratory. The assignments consist of various Ardiuno programs interacting with various hardware elements.
+<p style="text-indent: 1.5em">This is a repository containing the assignments for the Introduction to Robotics laboratory. Thses assignments consist of various Arduino programs.</p>
 
-## LCD MENU
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#rgb-controler">RGB led controler</a></li>
+<li><a href="#menu">LCD menu</a></li>
+</ul>
 
-This is an Arduino menu program using an OOP aproach. <a href="https://github.com/IoanRazvan/Introduction-to-Robotics/tree/master/Lab%20homeworks/MENU">take me to the program</a>
+<h3 id="rgb-controler">RGB led controler</h3>
+<p> In order to test the Arduino program you will need...</h3>
+
+<h3 id="menu">LCD menu</h3>
+<p> In order to test the Arduino program you will need...</h3>
