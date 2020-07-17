@@ -1,2 +1,2 @@
-Labs + Courses/
-LabPrograms/
+Labs + Courses/ # don't track the folder containing the materials
+LabPrograms/ # don't track programs from the laboratory
